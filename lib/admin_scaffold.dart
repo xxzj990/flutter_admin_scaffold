@@ -14,6 +14,7 @@ class AdminScaffold extends StatefulWidget {
     required this.body,
     this.backgroundColor,
     this.mobileThreshold = 768.0,
+    this.dragThreshold = 60.0,
   }) : super(key: key);
 
   final AppBar? appBar;
@@ -22,6 +23,8 @@ class AdminScaffold extends StatefulWidget {
   final Widget body;
   final Color? backgroundColor;
   final double mobileThreshold;
+  final double dragThreshold;
+
   @override
   _AdminScaffoldState createState() => _AdminScaffoldState();
 }
@@ -85,7 +88,9 @@ class _AdminScaffoldState extends State<AdminScaffold>
   void _onDragStart(DragStartDetails details) {
     final isClosed = _animationController.isDismissed;
     final isOpen = _animationController.isCompleted;
-    _canDragged = (isClosed && details.globalPosition.dx < 60) || isOpen;
+    _canDragged =
+        (isClosed && details.globalPosition.dx < widget.dragThreshold) ||
+            isOpen;
   }
 
   void _onDragUpdate(DragUpdateDetails details) {
@@ -158,11 +163,12 @@ class _AdminScaffoldState extends State<AdminScaffold>
                 ? Stack(
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onHorizontalDragStart: _onDragStart,
                         onHorizontalDragUpdate: _onDragUpdate,
                         onHorizontalDragEnd: _onDragEnd,
+                        child: widget.body,
                       ),
-                      widget.body,
                       if (_animation.value > 0)
                         Container(
                           color: Colors.black
