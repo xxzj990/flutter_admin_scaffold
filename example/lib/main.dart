@@ -216,6 +216,7 @@ class MyScaffold extends StatelessWidget {
           if (item.route != null && item.route != route) {
             Navigator.of(context).pushNamed(item.route!);
           }
+          return false;
         },
         header: Container(
           height: 50,

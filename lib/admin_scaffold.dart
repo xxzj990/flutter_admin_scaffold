@@ -143,12 +143,13 @@ class _AdminScaffoldState extends State<AdminScaffold>
 
   @override
   Widget build(BuildContext context) {
+    final sideBar = widget.sideBar;
     return Scaffold(
       backgroundColor: widget.backgroundColor,
       appBar: _appBar,
       body: AnimatedBuilder(
         animation: _animation,
-        builder: (_, __) => widget.sideBar == null
+        builder: (_, __) => sideBar == null
             ? Row(
                 children: [
                   Expanded(
@@ -184,7 +185,30 @@ class _AdminScaffoldState extends State<AdminScaffold>
                           size: Size(
                               (widget.sideBar?.width ?? 1.0) * _animation.value,
                               double.infinity),
-                          child: widget.sideBar,
+                          child: SideBar(
+                            items: sideBar.items,
+                            selectedRoute: sideBar.selectedRoute,
+                            onSelected: (item) {
+                              final close =
+                                  sideBar.onSelected?.call(item) ?? false;
+                              if (close) {
+                                _toggleSidebar();
+                              }
+                              return close;
+                            },
+                            width: sideBar.width,
+                            iconColor: sideBar.iconColor,
+                            activeIconColor: sideBar.activeIconColor,
+                            textStyle: sideBar.textStyle,
+                            activeTextStyle: sideBar.activeTextStyle,
+                            backgroundColor: sideBar.backgroundColor,
+                            activeBackgroundColor:
+                                sideBar.activeBackgroundColor,
+                            borderColor: sideBar.borderColor,
+                            scrollController: sideBar.scrollController,
+                            header: sideBar.header,
+                            footer: sideBar.footer,
+                          ),
                         ),
                       ),
                     ],

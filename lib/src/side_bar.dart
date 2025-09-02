@@ -32,7 +32,7 @@ class SideBar extends StatefulWidget {
 
   final List<AdminMenuItem> items;
   final String selectedRoute;
-  final void Function(AdminMenuItem item)? onSelected;
+  final bool Function(AdminMenuItem item)? onSelected;
   final double width;
   final Color? iconColor;
   final Color? activeIconColor;

@@ -50,6 +50,7 @@ class SamplePage extends StatelessWidget {
           if (item.route != null) {
             Navigator.of(context).pushNamed(item.route!);
           }
+          return false;
         },
         header: Container(
           height: 50,
